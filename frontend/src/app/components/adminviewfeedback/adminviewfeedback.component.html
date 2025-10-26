@@ -1,0 +1,85 @@
+<div class="container">
+    <h2>Admin — Feedback</h2>
+  
+    <!-- Filters -->
+    <div class="filters">
+      <input
+        type="text"
+        placeholder="Search keyword in feedback……"
+        [(ngModel)]="search"
+        (input)="applyFilters()"
+        aria-label="Search feedback"
+      />
+  
+      <select [(ngModel)]="selectedCategory" (change)="applyFilters()" aria-label="Filter by category">
+        <option *ngFor="let c of categories" [value]="c">{{ c }}</option>
+      </select>
+  
+      <select [(ngModel)]="minRating" (change)="applyFilters()" aria-label="Minimum rating">
+        <option [ngValue]="null">Any rating</option>
+        <option *ngFor="let r of [1,2,3,4,5]" [ngValue]="r">≥ {{ r }}★</option>
+      </select>
+  
+  
+      <button type="button" class="btn-secondary" (click)="clearFilters()">Clear</button>
+    </div>
+  
+    <!-- States -->
+    <div *ngIf="loading" class="state">Loading feedback…</div>
+    <div *ngIf="!loading && error" class="state error">{{ error }}</div>
+    <div *ngIf="!loading && !error && filtered.length === 0" class="state">No feedback found.</div>
+  
+    <!-- Table -->
+    <div class="table-wrapper" *ngIf="!loading && !error && filtered.length">
+      <table>
+        <thead>
+          <tr>
+            <th tabindex="0" (click)="onHeaderClick('date')" (keydown.enter)="onHeaderClick('date')" (keydown.space)="onHeaderClick('date')">Date <span [class]="sortKey==='date' ? sortDir : ''"></span></th>
+              
+            <th tabindex="0" (click)="onHeaderClick('rating')" (keydown.enter)="onHeaderClick('rating')" (keydown.space)="onHeaderClick('rating')">Rating <span [class]="sortKey==='rating' ? sortDir : ''"></span></th>
+
+            <th tabindex="0" (click)="onHeaderClick('category')" (keydown.enter)="onHeaderClick('category')" (keydown.space)="onHeaderClick('category')">Category <span [class]="sortKey==='category' ? sortDir : ''"></span></th>
+
+            <th tabindex="0" (click)="onHeaderClick('user')" (keydown.enter)="onHeaderClick('user')" (keydown.space)="onHeaderClick('user')">User <span [class]="sortKey==='user' ? sortDir : ''"></span></th>
+
+            <th tabindex="0" (click)="onHeaderClick('driver')" (keydown.enter)="onHeaderClick('driver')" (keydown.space)="onHeaderClick('driver')">Driver <span [class]="sortKey==='driver' ? sortDir : ''"></span></th>
+
+            <th>Feedback</th>
+            <th class="actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of paged(); trackBy: trackByFeedbackId">
+            <td>{{ f.date | date:'mediumDate' }}</td>
+            <td>
+              <span class="stars" [attr.data-rating]="f.rating"></span>
+              <small>{{ f.rating }}/5</small>
+            </td>
+            <td><span class="pill">{{ f.category || '—' }}</span></td>
+            <td>{{ f.user?.username }}</td>
+            <td>{{ f.driver?.driverName }}</td>
+            <td class="text">{{ f.feedbackText }}</td>
+            <td class="actions">
+              <button type="button" (click)="delete(f)" class="btn-danger">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <!-- Pagination -->
+      <div class="pagination" *ngIf="pageCount > 1">
+        <button (click)="page=1" [disabled]="page===1">«</button>
+        <button (click)="page=page-1" [disabled]="page===1">‹</button>
+        <span>Page {{ page }} / {{ pageCount }}</span>
+        <button (click)="page=page+1" [disabled]="page===pageCount">›</button>
+        <button (click)="page=pageCount" [disabled]="page===pageCount">»</button>
+  
+        <select [(ngModel)]="pageSize" (change)="page=1" aria-label="Items per page">
+          <option [ngValue]="5">5</option>
+          <option [ngValue]="10">10</option>
+          <option [ngValue]="20">20</option>
+          <option [ngValue]="50">50</option>
+        </select>
+      </div>
+    </div>
+  </div>

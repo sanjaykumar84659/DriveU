@@ -1,0 +1,100 @@
+<div class="request-container">
+  <h2>{{ isEditMode ? 'Edit Request' : 'New Driver Request' }}</h2>
+
+  <form [formGroup]="requestForm" (ngSubmit)="submitRequest()" novalidate>
+    <!-- Pickup Location -->
+    <div class="form-group">
+      <label for="pickupLocation">* Pickup Location</label>
+      <input
+        type="text"
+        id="pickupLocation"
+        formControlName="pickupLocation"
+        placeholder="Enter pickup location"
+      />
+      <div *ngIf="requestForm.get('pickupLocation')?.invalid && requestForm.get('pickupLocation')?.touched" class="error">
+        Pickup location is required.
+      </div>
+    </div>
+
+    <!-- Drop Location -->
+    <div class="form-group">
+      <label for="dropLocation">* Drop Location</label>
+      <input
+        type="text"
+        id="dropLocation"
+        formControlName="dropLocation"
+        placeholder="Enter drop location"
+      />
+      <div *ngIf="requestForm.get('dropLocation')?.invalid && requestForm.get('dropLocation')?.touched" class="error">
+        Drop location is required.
+      </div>
+    </div>
+
+    <!-- Trip Date -->
+    <div class="form-group">
+      <label for="tripDate">* Trip Date</label>
+      <input
+        type="date"
+        id="tripDate"
+        formControlName="tripDate"
+        [min]="todayDate"
+      />
+      <div *ngIf="requestForm.get('tripDate')?.invalid && requestForm.get('tripDate')?.touched" class="error">
+        Trip date is required.
+      </div>
+    </div>
+
+    <!-- Time Slot -->
+    <div class="form-group">
+      <label for="timeSlot">* Time Slot</label>
+      <input
+        type="time"
+        id="timeSlot"
+        formControlName="timeSlot"
+      />
+      <div *ngIf="requestForm.get('timeSlot')?.invalid && requestForm.get('timeSlot')?.touched" class="error">
+        Time slot is required.
+      </div>
+    </div>
+
+    <!-- Estimated Duration -->
+    <div class="form-group">
+      <label for="estimatedDuration">* Estimated Duration</label>
+      <input
+        type="text"
+        id="estimatedDuration"
+        formControlName="estimatedDuration"
+        placeholder="e.g., 2 hours"
+      />
+      <div *ngIf="requestForm.get('estimatedDuration')?.invalid && requestForm.get('estimatedDuration')?.touched" class="error">
+        Estimated duration is required.
+      </div>
+    </div>
+
+    <!-- Comments -->
+    <div class="form-group">
+      <label for="comments">Comments</label>
+      <textarea
+        id="comments"
+        formControlName="comments"
+        placeholder="Optional comments"
+      ></textarea>
+    </div>
+
+    <!-- Success Message -->
+    <div *ngIf="successMessage" class="success-message">
+      {{ successMessage }}
+      <button type="button" (click)="confirmPopup()">OK</button>
+    </div>
+
+    
+
+    <!-- Submit Button -->
+    <button type="submit" [disabled]="requestForm.invalid">
+      {{ isEditMode ? 'Update Request' : 'Submit Request' }}
+    </button>
+
+    <!-- Back Button -->
+    <button type="button" (click)="goBack()">Back</button>
+  </form>
+</div>

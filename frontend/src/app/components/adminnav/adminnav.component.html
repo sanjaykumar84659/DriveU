@@ -1,0 +1,45 @@
+<nav class="admin-nav">
+  <div class="nav-container">
+    <div class="logo">
+      <a routerLink="/home">DriveU</a>
+    </div>
+
+    <span class="user-info" *ngIf="username && role">{{ username }} / {{ role }}</span>
+
+    <ul class="nav-links">
+      <li><a routerLink="/admin/home">Home</a></li>
+
+      <li class="dropdown"
+          (mouseenter)="showDriverSubmenu = true"
+          (mouseleave)="showDriverSubmenu = false">
+        <span>Drivers</span>
+        <div class="submenu" *ngIf="showDriverSubmenu">
+          <a routerLink="/admin/driver-management">Add Driver</a>
+          <a routerLink="/admin/viewdriver">View Drivers</a>
+        </div>
+      </li>
+
+      <li><a routerLink="/admin/requests">Requests</a></li>
+      <li><a routerLink="/admin/feedback">Feedback</a></li>
+    </ul>
+
+    
+    <button class="logout-button" (click)="showLogoutPopup = true">Logout</button>
+  </div>
+</nav>
+
+<!-- Popup Modal -->
+<div class="popup-overlay" *ngIf="showLogoutPopup">
+  <div class="popup">
+    <h3>Confirm Logout</h3>
+    <p>Are you sure you want to logout?</p>
+    <div class="popup-buttons">
+      <button class="confirm-btn" (click)="confirmLogout()">Yes</button>
+      <button class="cancel-btn" (click)="cancelLogout()">No</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-main">
+  <router-outlet></router-outlet>
+</div>

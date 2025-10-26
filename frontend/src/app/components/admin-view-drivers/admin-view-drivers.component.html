@@ -1,0 +1,76 @@
+<div class="admin-view-drivers">
+  <h1>Drivers</h1>
+
+  <!-- Search and Filter -->
+  <div class="search-filter">
+    <input type="text" placeholder="Search by Driver Name" [(ngModel)]="searchTerm" (input)="applyFilters()" />
+    <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+      <option value="">Filter by Status</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
+      <option value="on-leave">On Leave</option>
+    </select>
+  </div>
+
+  <!-- No Data Message -->
+  <div class="no-data" *ngIf="filteredDrivers.length === 0">
+    Oops! No data found.
+  </div>
+
+  <!-- Driver Cards -->
+  <div class="driver-grid">
+    <div class="driver-card" *ngFor="let driver of filteredDrivers">
+      <div class="card-header">
+         <img [src]="driver.image ? 'data:image/jpeg;base64,' + driver.image : 'assets/images/homepage.png'" alt="Driver" /> 
+
+      </div>
+
+      <!-- Display Mode -->
+      <div *ngIf="editDriverId !== driver.driverId">
+        <div class="card-body">
+        <h2>{{ driver.driverName }}</h2>
+        <p><strong>Vehicle Type:</strong> {{ driver.vehicleType }}</p>
+        <p><strong>License:</strong> {{ driver.licenseNumber }}</p>
+        <p><strong>Phone:</strong> {{ driver.contactNumber }}</p>
+        <p><strong>Address:</strong> {{ driver.address }}</p>
+        <p><strong>Experience:</strong> {{ driver.experienceYears }} years</p>
+        <p><strong>Status:</strong> {{ driver.availabilityStatus }}</p>
+        <p><strong>Hourly Rate:</strong> ₹{{ driver.hourlyRate }}</p>
+      </div>
+
+        <div class="card-actions">
+          <button class="edit-btn" [routerLink]="['/admin/driver-management', driver.driverId]">Edit</button>
+          <button class="delete-btn" (click)="confirmDelete(driver.driverId!)">Delete</button>
+          <button class="action-btn" (click)="toggleStatusDropdown(driver)">Action</button>
+        
+          <div class="status-dropdown" *ngIf="showStatus && selectedDriver?.driverId === driver.driverId">
+            <select [(ngModel)]="driver.availabilityStatus" (change)="changeStatus(driver)">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="on-leave">On Leave</option>
+            </select>
+          </div>
+        </div>
+
+      <!-- Edit Mode -->
+      <div *ngIf="editDriverId === driver.driverId" class="edit-form">
+        <form (ngSubmit)="saveEdit(driver)">
+          <input type="text" [(ngModel)]="driver.driverName" name="driverName" required />
+          <input type="text" [(ngModel)]="driver.licenseNumber" name="licenseNumber" required />
+          <input type="tel" [(ngModel)]="driver.contactNumber" name="contactNumber" required />
+          <input type="text" [(ngModel)]="driver.address" name="address" required />
+          <input type="number" [(ngModel)]="driver.experienceYears" name="experienceYears" required />
+          <input type="number" [(ngModel)]="driver.hourlyRate" name="hourlyRate" required />
+          <select [(ngModel)]="driver.availabilityStatus" name="availabilityStatus" required>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="on-leave">On Leave</option>
+          </select>
+          <button type="submit">Save</button>
+          <button type="button" (click)="cancelEdit()">Cancel</button>
+          
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

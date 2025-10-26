@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="left-panel">
+    <img src="assets/images/background.webp" alt="DriveU Illustration" />
+  </div>
+
+  <div class="right-panel">
+    <div class="login-box">
+      <h1>DriveU Login</h1>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <!-- Email -->
+        <div>
+          <label for="email">Email</label>
+          <input type="email" formControlName="email" placeholder="you@example.com" />
+          <div class="error" *ngIf="loginForm.controls['email'].errors?.['required'] && 
+                                    (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)">
+            Please enter a valid email.
+          </div>
+          <div class="error" *ngIf="loginForm.controls['email'].errors?.['pattern']">
+            Email must be in the format: example&#64;domain.com
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="password">Password</label>
+          <input type="password" formControlName="password" placeholder="Your password" />
+          <div class="error" *ngIf="loginForm.controls['password'].errors?.['required'] && 
+                                    (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)">
+            Password is required.
+          </div>
+          <div class="error" *ngIf="loginForm.controls['password'].errors?.['minlength']">
+            Password must be at least 6 characters.
+          </div>
+          <div class="error" *ngIf="loginForm.controls['password'].errors?.['pattern']">
+            Password must include uppercase, lowercase, number, and special character.
+          </div>
+        </div>
+
+        <!-- API Error Message -->
+        <p class="error" *ngIf="errorMsg">{{ errorMsg }}</p>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="loading">Log In</button>
+      </form>
+
+      <p>Don't have an account? <a [routerLink]="['/signup']">Sign Up</a></p>
+    </div>
+  </div>
+</div>

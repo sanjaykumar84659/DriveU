@@ -1,0 +1,60 @@
+<div class="container">
+  <h1 >Available Drivers</h1>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading">Loading drivers...</div>
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <!-- No Records Found -->
+  <div *ngIf="!isLoading && drivers.length === 0" class="no-records">
+
+    <p>Oops! No driver found</p>
+  </div>
+
+  <!-- Driver Cards -->
+  <div class="driver-cards" *ngIf="drivers.length > 0">
+    <div class="driver-card" *ngFor="let driver of drivers">
+      <img
+        [src]="driver.image ? 'data:image/jpeg;base64,' + driver.image : 'assets/images/homepage.png'"
+        alt="Driver"
+      />
+      <h2>{{ driver.driverName }}</h2>
+      <p><strong>Vehicle Type:</strong> {{ driver.vehicleType }}</p>
+      <p><strong>License:</strong> {{ driver.licenseNumber }}</p>
+      <p><strong>Phone:</strong> {{ driver.contactNumber }}</p>
+      <p><strong>Address:</strong> {{ driver.address }}</p>
+      <p><strong>Experience:</strong> {{ driver.experienceYears }} years</p>
+      <p><strong>Hourly Rate:</strong> ₹{{ driver.hourlyRate }}</p>
+      <p><strong>Status:</strong> {{ driver.availabilityStatus }}</p>
+
+      <!-- Request Button -->
+      <button
+        *ngIf="canRequest(driver)"
+        (click)="requestDriver(driver)"
+        class="request-btn"
+      >
+        Request
+      </button>
+
+      <!-- Already Requested -->
+      <button
+        *ngIf="isDriverRequested(driver.driverId!)"
+        disabled
+        class="requested-btn"
+      >
+        Requested
+      </button>
+
+      <!-- Not Available -->
+      <button
+        *ngIf="driver.availabilityStatus?.toLowerCase() !== 'active' && !isDriverRequested(driver.driverId!)"
+        disabled
+        class="inactive-btn"
+      >
+        Not Available
+      </button>
+    </div>
+  </div>
+</div>

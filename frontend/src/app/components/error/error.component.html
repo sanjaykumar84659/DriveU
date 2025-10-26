@@ -1,0 +1,40 @@
+<div class="error-container">
+    <h1>Error {{ code }}</h1>
+ 
+    <div [ngSwitch]="code" class="msg">
+      <p *ngSwitchCase="400">
+        <strong>400 — Bad Request</strong><br />
+        The server couldn't understand your request. Check the input and try again.
+      </p>
+ 
+      <p *ngSwitchCase="403">
+        <strong>403 — Forbidden</strong><br />
+        You don’t have permission to access this resource.
+      </p>
+ 
+      <p *ngSwitchCase="404">
+        <strong>404 — Not Found</strong><br />
+        The page or resource you’re looking for doesn’t exist.
+      </p>
+ 
+      <p *ngSwitchCase="409">
+        <strong>409 — Conflict</strong><br />
+        The request cannot be completed due to a resource is already in database.
+        <br><span *ngIf="backendMessage"> Details below.</span>
+      </p>
+ 
+      <p *ngSwitchCase="500">
+        <strong>500 — Internal Server Error</strong><br />
+        Something went wrong on our side. Please try again later.
+      </p>
+ 
+      <p *ngSwitchDefault>
+        <strong>Unexpected Error</strong><br />
+        Please try again. If the issue persists, contact support.
+      </p>
+    </div>
+
+    <pre *ngIf="backendMessage" class="details">{{ backendMessage }}</pre>
+ 
+    <button (click)="goHome()">Go to Home</button>
+</div>

@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="left-panel">
+    <img src="/assets/images/background.webp" alt="DriveU Illustration" />
+  </div>
+
+  <div class="right-panel">
+    <div class="signup-card">
+      <h2>Sign Up</h2>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+
+        <!-- Email -->
+        <div>
+          <label for="email">Email *</label>
+          <input type="email" formControlName="email" placeholder="you@example.com" />
+          
+          <div class="error" *ngIf="signupForm.controls['email'].errors?.['required'] && 
+                                    (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)">
+            Please enter a valid email.
+          </div>
+          <div class="error" *ngIf="signupForm.controls['email'].errors?.['pattern']">
+            Email must be in the format: example&#64;domain.com
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div>
+          <label for="uname">Username *</label>
+          <input type="text" formControlName="username" placeholder="Your name" />
+          <div class="error" *ngIf="signupForm.controls['username'].touched && signupForm.controls['username'].invalid">
+            Required.
+          </div>
+        </div>
+
+        <!-- Mobile Number -->
+        <div>
+          <label for="mobNo">Mobile Number *</label>
+          <input type="text" formControlName="mobileNumber" placeholder="10 digit mobile number" />
+          <div class="error" *ngIf="signupForm.controls['mobileNumber'].touched && signupForm.controls['mobileNumber'].invalid">
+            Enter 10 digit mobile number.
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label for="pass">Password *</label>
+          <input type="password" formControlName="password" placeholder="Minimum 6 characters" />
+          
+          <div class="error" *ngIf="signupForm.controls['password'].errors?.['required'] && 
+                                    (signupForm.controls['password'].dirty || signupForm.controls['password'].touched)">
+            Password is required.
+          </div>
+
+          <div class="error" *ngIf="signupForm.controls['password'].errors?.['minlength']">
+            Password must be at least 6 characters.
+          </div>
+
+          <div class="error" *ngIf="signupForm.controls['password'].errors?.['pattern']">
+            Password must include uppercase, lowercase, number, and special character.
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div>
+          <label for="cpass">Confirm Password *</label>
+          <input type="password" formControlName="confirmPassword" placeholder="Re-enter password" />
+          <div class="error" *ngIf="signupForm.hasError('mismatch') && signupForm.controls['confirmPassword'].touched">
+            Passwords do not match.
+          </div>
+        </div>
+
+        <!-- Role -->
+        <div>
+          <label for="role">Role *</label>
+          <select formControlName="userRole">
+            <option value="CUSTOMER">Customer</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+
+        <!-- API Message -->
+        <p class="error" *ngIf="message">{{ message }}</p>
+
+        <!-- Submit Button -->
+        <button type="submit" [disabled]="loading">Sign Up</button>
+      </form>
+
+      <p>Already have an account? <a [routerLink]="['/login']">Login</a></p>
+    </div>
+  </div>
+</div>

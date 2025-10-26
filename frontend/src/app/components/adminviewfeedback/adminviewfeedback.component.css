@@ -1,0 +1,133 @@
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 16px;
+    color: #333;
+  }
+  
+  .filters {
+    display: grid;
+    grid-template-columns: 1fr 180px 150px auto auto;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: center;
+  }
+  
+  .filters input,
+  .filters select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .btn-secondary {
+    padding: 8px 12px;
+    border: 1px solid #999;
+    background: #fff;
+    border-radius: 4px;
+  }
+  
+  .table-wrapper {
+    overflow: auto;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 6px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #eee;
+    text-align: left;
+    vertical-align: top;
+  }
+  
+  th {
+    background: #fafafa;
+    user-select: none;
+    cursor: pointer;
+  }
+  
+  th .asc::after { content: ' ▲'; }
+  th .desc::after { content: ' ▼'; }
+  
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #3b5bdb;
+    font-size: 12px;
+  }
+  
+  .text {
+    max-width: 420px;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  
+  .actions {
+    white-space: nowrap;
+  }
+  
+  .btn-danger {
+    padding: 6px 10px;
+    background: #e03131;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .state {
+    padding: 20px;
+    text-align: center;
+    color: #555;
+  }
+  
+  .state.error {
+    color: #b00020;
+  }
+  
+  .stars::before {
+    content: '★★★★★';
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #f59f00 calc(var(--pct, 0) * 1%), #ddd 0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .stars[data-rating="1"] { --pct: 20; }
+  .stars[data-rating="2"] { --pct: 40; }
+  .stars[data-rating="3"] { --pct: 60; }
+  .stars[data-rating="4"] { --pct: 80; }
+  .stars[data-rating="5"] { --pct: 100; }
+  
+  .pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 12px;
+  }
+  
+  .pagination button, .pagination select {
+    padding: 6px 10px;
+  }
+  

@@ -1,0 +1,150 @@
+<div [class.blur]="showDriverModal || showStageModal" class="admin-requests">
+  <h2 class="page-title">Driver Requests for Approval</h2>
+
+  <div class="filter-bar">
+    <input type="text" placeholder="Search by Driver ID" [(ngModel)]="searchTerm" (input)="applyFilters()" />
+    <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+      <option value="">Filter by Status</option>
+      <option value="Pending">Pending</option>
+      <option value="Approved">Approved</option>
+      <option value="Rejected">Rejected</option>
+      <option value="Trip End">Trip End</option>
+      <option value="Closed">Closed</option>
+    </select>
+  </div>
+
+  <div class="no-data" *ngIf="filteredRequests.length === 0">
+    Oops! No requests found
+  </div>
+
+  <table *ngIf="filteredRequests.length > 0" class="request-table">
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>UserName</th>
+        <th>Pickup Location</th>
+        <th>Drop Location</th>
+        <th>Trip Date</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of filteredRequests; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ request.user?.username }}</td>
+        <td>{{ request.pickupLocation }}</td>
+        <td>{{ request.dropLocation }}</td>
+        <td>{{ request.tripDate | date:'yyyy-MM-dd' }}</td>
+        <td [ngClass]="request.status.toLowerCase()">{{ request.status }}</td>
+        <td>
+          <button class="btn-driver" (click)="showDriverDetails(request)">Driver</button>
+
+          <button
+          *ngIf="request.status === 'Pending' || request.status === 'Rejected'" 
+          class="btn-approve" 
+          (click)="approveRequest(request)">
+          Approve
+        </button>
+        
+        <button 
+          *ngIf="request.status === 'Pending' || request.status === 'Approved'" 
+          class="reject-cls" 
+          (click)="rejectRequest(request)">
+          Reject
+        </button>
+        
+        <button class="btn-stage" (click)="showStage(request)">
+          Stage
+        </button>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Driver Details Modal -->
+<div class="modal" *ngIf="showDriverModal">
+  <div class="modal-content">
+    <button class="close" (click)="closeDriverModal()" aria-label="Close modal">
+      ×
+    </button>
+    <h3>Driver Details</h3>
+<img [src]="selectedDriver?.image ? 'data:image/jpeg;base64,' + selectedDriver?.image : 'assets/images/homepage.png'" alt="Driver" /> 
+    <p><strong>Name:</strong> {{ selectedDriver?.driverName || '-' }}</p>
+    <p><strong>License Number:</strong> {{ selectedDriver?.licenseNumber || '-' }}</p>
+    <p><strong>Experience:</strong> {{ selectedDriver?.experienceYears || '-' }} years</p>
+    <p><strong>Contact:</strong> {{ selectedDriver?.contactNumber || '-' }}</p>
+    <p><strong>Vehicle Type:</strong> {{ selectedDriver?.vehicleType || '-' }}</p>
+    <p><strong>Hourly Rate:</strong> ₹{{ selectedDriver?.hourlyRate || '-' }}</p>
+    <p><strong>Address:</strong> {{ selectedDriver?.address || '-' }}</p>
+  </div>
+</div>
+
+<!-- Stage Modal -->
+<div class="modal" *ngIf="showStageModal">
+  <div class="modal-content stage-modal">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <h3>Request Progression</h3>
+      
+    <button class="close" (click)="closeStageModal()" aria-label="Close modal">×</button>
+
+    </div>
+
+    <!-- Rejected Flow (only if status is 'Rejected') -->
+<div *ngIf="selectedRequest?.status === 'Rejected'" class="stage-wrapper">
+  <div class="stage-buttons">
+    <!-- Pending Stage -->
+    <div class="stage-display done">
+      <span class="dot grey"></span>
+      <span class="label">Pending</span>
+    </div>
+
+    <!-- Connector -->
+    <div class="connector done"></div>
+
+    <!-- Rejected Stage -->
+    <div class="stage-display rejected">
+      <span class="dot red"></span>
+      <span class="label">Rejected</span>
+    </div>
+  </div>
+</div>
+
+    <!-- Stage Flow (Read-only) -->
+    <div class="stage-wrapper" *ngIf="selectedRequest?.status !== 'Rejected'">
+      <div class="stage-buttons">
+        <ng-container *ngFor="let stage of STAGES; let idx = index">
+          <div
+            class="stage-display"
+            [class.active]="isStageActive(stage)"
+            [class.done]="isStageDone(stage)"
+            [title]="stage"
+          >
+            <span class="dot">
+              <i *ngIf="isStageDone(stage)" class="fa fa-check"></i>
+            </span>
+            <span class="label">{{ stage }}</span>
+          </div>
+
+          <!-- Connector Line -->
+          <div
+            *ngIf="idx < STAGES.length - 1"
+            class="connector"
+            [class.done]="isStageDoneByIndex(idx + 1)"
+            [class.active]="isStageActive(STAGES[idx + 1])"
+          ></div>
+        </ng-container>
+      </div>
+
+      <!-- Close Request Button -->
+      <div class="action-btn" *ngIf="selectedRequest?.status === 'Trip End'">
+        <button class="btn-close" (click)="closeRequest(selectedRequest!)">
+          Close Request
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

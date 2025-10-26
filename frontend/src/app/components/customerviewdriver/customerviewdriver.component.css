@@ -1,0 +1,99 @@
+h1 {
+  text-align: center;
+  font-size: 32px;        /* bigger and bold */
+  font-weight: 700;       /* strong emphasis */
+  color: #0c0d0d;         /* matching your theme blue */
+  margin-bottom: 30px;    /* spacing from cards */
+  /* text-transform: uppercase; */
+ 
+
+}
+
+
+
+.driver-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  
+.driver-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  
+  .driver-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  /* Uniform Image Styling */
+  .driver-card img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 2px solid #ddd;
+  }
+  
+  /* Driver Info */
+  .driver-card h2 {
+    margin: 10px 0;
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .driver-card p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+    text-align: left;
+    width: 100%;
+    max-width: 250px;
+  }
+  
+  /* Buttons */
+  .request-btn,
+  .requested-btn,
+  .inactive-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 150px;
+  }
+  
+  .request-btn {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .requested-btn {
+    background-color: #2196f3;
+    color: white;
+  }
+  
+  .inactive-btn {
+    background-color: #9e9e9e;
+    color: white;
+    cursor: not-allowed;
+  }

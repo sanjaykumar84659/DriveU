@@ -1,0 +1,34 @@
+<nav class="customer-nav">
+  <div class="nav-container">
+    <div class="logo">
+      <a routerLink="/home">DriveU</a>
+    </div>
+
+    <span class="user-info" *ngIf="username && role">{{ username }} / {{ role }}</span>
+
+    <ul class="nav-links">
+      <li class="nav-item"><a routerLink="/customer/home">Home</a></li>
+      <li class="nav-item"><a routerLink="/customer/viewdriver">Available Drivers</a></li>
+      <li class="nav-item"><a routerLink="/customer/viewrequest">My Requests</a></li>
+      <li class="nav-item"><a routerLink="/customer/feedback">Feedback</a></li>
+    </ul>
+
+    <button class="logout-button" (click)="showLogoutPopup = true">Logout</button>
+  </div>
+</nav>
+
+<!-- Popup Modal -->
+<div class="popup-overlay" *ngIf="showLogoutPopup">
+  <div class="popup">
+    <h3>Confirm Logout</h3>
+    <p>Are you sure you want to logout?</p>
+    <div class="popup-buttons">
+      <button class="confirm-btn" (click)="confirmLogout()">Yes</button>
+      <button class="cancel-btn" (click)="cancelLogout()">No</button>
+    </div>
+  </div>
+</div>
+
+<div class="customer-main">
+  <router-outlet></router-outlet>
+</div>

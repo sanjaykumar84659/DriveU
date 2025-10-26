@@ -1,0 +1,42 @@
+<div class="feedback-container" *ngIf="!submitted; else thankYou">
+    <div class="feedback-header">
+      <h2>Submit Feedback</h2>
+      <button class="close-btn" (click)="skip()">X</button>
+    </div>
+  
+    <div class="form-group">
+      <label for="feedbackText">Feedback</label>
+      <textarea id="feedbackText" [(ngModel)]="feedbackText" placeholder="Write your feedback here..."></textarea>
+    </div>
+  
+    <div class="form-group">
+      <label for="category">Category</label>
+      <select id="category" [(ngModel)]="category">
+        <option value="" disabled selected>Select Category</option>
+        <option value="Service">Service</option>
+        <option value="Driver Attitude">Driver Attitude</option>
+        <option value="App Experience">App Experience</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="rating">Rating</label>
+      <select id="rating" [(ngModel)]="rating">
+        <option value="" disabled selected>Select Rating</option>
+        <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{ r }}</option>
+      </select>
+    </div>
+  
+    <div class="form-actions">
+      <button class="submit-btn" (click)="submitFeedback()">Submit</button>
+      <button class="skip-btn" (click)="skip()">Skip Now</button>
+    </div>
+  
+    <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
+  </div>
+  
+  <ng-template #thankYou>
+    <div class="thank-you-message">
+      <h3>Thank you for your feedback!</h3>
+    </div>
+  </ng-template>

@@ -1,0 +1,93 @@
+<div class="container mt-4">
+  <button *ngIf="isEditMode" type="button" (click)="goBack()"> Back</button>
+    <h2>{{ isEditMode ? 'Edit Driver' : 'Create New Driver' }}</h2>
+  
+    <form [formGroup]="driverForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-group">
+        <label for="driverName">Name</label>
+        <input id="driverName" class="form-control" formControlName="driverName" />
+        <div *ngIf="driverForm.get('driverName')?.touched && driverForm.get('driverName')?.invalid" class="text-danger">
+          Name is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="licenseNumber">License Number</label>
+        <input id="licenseNumber" class="form-control" formControlName="licenseNumber" />
+        <div *ngIf="driverForm.get('licenseNumber')?.touched && driverForm.get('licenseNumber')?.invalid" class="text-danger">
+          License Number is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="experienceYears">Experience (Years)</label>
+        <input id="experienceYears" type="number" class="form-control" formControlName="experienceYears" />
+        <div *ngIf="driverForm.get('experienceYears')?.touched && driverForm.get('experienceYears')?.invalid" class="text-danger">
+          Valid experience is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="contactNumber">Contact Number</label>
+        <input id="contactNumber" class="form-control" formControlName="contactNumber" />
+        <div *ngIf="driverForm.get('contactNumber')?.touched && driverForm.get('contactNumber')?.invalid" class="text-danger">
+          Valid 10-digit contact number is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="vehicleType">Vehicle Type</label>
+        <select id="vehicleType" class="form-control" formControlName="vehicleType">
+          <option value="">Select Vehicle Type</option>
+          <option value="Suv">SUV</option>
+          <option value="Sedan">SEDAN</option>
+          <option value="Crossover">CROSSOVER</option>
+          <option value="Pickup Truck">PICKUP TRUCK</option>
+          <option value="Sports Car">SPORTS CAR</option>
+
+        </select>
+        <div *ngIf="driverForm.get('vehicleType')?.touched && driverForm.get('vehicleType')?.invalid" class="text-danger">
+          Vehicle type is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="hourlyRate">Hourly Rate</label>
+        <input id="hourlyRate" type="number" class="form-control" formControlName="hourlyRate" />
+        <div *ngIf="driverForm.get('hourlyRate')?.touched && driverForm.get('hourlyRate')?.invalid" class="text-danger">
+          Valid hourly rate is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea id="address" class="form-control" formControlName="address"></textarea>
+        <div *ngIf="driverForm.get('address')?.touched && driverForm.get('address')?.invalid" class="text-danger">
+          Address is required.
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="image">
+          <i class="fas fa-image"></i> Driver Image
+        </label>
+        <input type="file" id="image" class="form-control" (change)="onImageSelected($event)" />
+        <div *ngIf="driverForm.get('image')?.invalid && driverForm.get('image')?.touched" class="text-danger">
+          Image is required.
+        </div>
+      
+        <!-- Optional: Preview -->
+        <div *ngIf="imagePreview" class="mt-2">
+          <img [src]="'data:image/jpeg;base64,' + imagePreview" alt="Preview" width="150" />
+        </div>
+      </div>
+  
+      <button type="submit" class="btn btn-primary">
+        {{ isEditMode ? 'Update Driver' : 'Add Driver' }}
+      </button>
+
+      
+
+    </form>
+  </div>
+  

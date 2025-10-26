@@ -1,0 +1,79 @@
+<div class="request-view">
+  <h2>My Driver Requests</h2>
+
+  <!-- Search Bar -->
+  <input
+    type="text"
+    placeholder="Search by Pickup or Drop Location"
+    [(ngModel)]="searchTerm"
+    class="search-bar"
+  />
+
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+  <!-- No Requests -->
+  <div *ngIf="filteredRequests().length === 0 && !errorMessage" class="no-data">
+    <p>No requests found.</p>
+  </div>
+
+  <!-- Request Cards -->
+  <div class="request-grid" *ngIf="filteredRequests().length > 0">
+    <div class="request-card" *ngFor="let request of filteredRequests()">
+      <h3>Driver Name - {{ request.driver?.driverName }}</h3>
+      <p><strong>Status:</strong> {{ request.status }}</p>
+      <p><strong>Pickup:</strong> {{ request.pickupLocation }}</p>
+      <p><strong>Drop:</strong> {{ request.dropLocation }}</p>
+      <p><strong>Trip Date:</strong> {{ request.tripDate | date }}</p>
+      <p><strong>Time Slot:</strong> {{ request.timeSlot || 'Not Provided' }}</p>
+      <p><strong>Duration:</strong> {{ request.estimatedDuration }}</p>
+      <p><strong>Comments:</strong> {{ request.comments || 'None' }}</p>
+
+      
+      <div class="card-actions">
+        <button 
+          class="btn-edit"
+          (click)="editRequest(request.driverRequestId!)" 
+          [disabled]="request.status === 'Trip End' || request.status === 'Closed' || request.status === 'Rejected' || request.status === 'Approved'">
+          Edit
+        </button>
+      
+        <button 
+          class="btn-end"
+          *ngIf="request.status !== 'Trip End'" 
+          (click)="endTrip(request)" 
+          [disabled]="request.status === 'Pending' || request.status === 'Closed' || request.status === 'Rejected'">
+          Trip End
+        </button>
+      
+        <button 
+          class="btn-fetch"
+          (click)="feedBack(request)"
+          [disabled]="request.status === 'Pending'|| request.status === 'Rejected' || request.status !== 'Trip End'">
+          Fetch Payment
+        </button>
+      
+        <button 
+          class="btn-delete"
+          (click)="deleteRequest(request.driverRequestId!)">
+          Delete
+        </button>
+      </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Payment Popup -->
+<div class="popup" *ngIf="showPaymentPopup">
+  <div>
+    <h2>Travel Charge</h2>
+    <p>We hope you had a wonderful journey!</p>
+    <p><strong>Travel Charges:</strong> ₹{{ selectedRequest?.paymentAmount }}</p>
+    <p><strong>Actual Duration:</strong> {{ selectedRequest?.actualDuration }}</p>
+    <p><strong>Arrival Drop Date:</strong> {{ selectedRequest?.actualDropDate | date:'dd/MM/yy' }}</p>
+    <p><strong>Actual Drop Time:</strong> {{ selectedRequest?.actualDropTime }}</p>
+
+    <button (click)="writeReview(selectedRequest!)">Write a Review</button>
+    <button (click)="closePopup()">Skip Now</button>
+  </div>
+</div>

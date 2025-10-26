@@ -1,0 +1,43 @@
+.hero-header {
+  position: relative;
+  background-image: url('/assets/images/homepage.webp');
+  background-size: cover;
+  background-position: center;
+  /* height: 400px; */
+   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* margin-top: 70px; */
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.6); /* semi-transparent dark background */
+  color: white;
+  text-align: center;
+  padding: 20px 40px;
+  border-radius: 10px;
+}
+
+.welcome-section {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.welcome-box {
+  background-color: white;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 800px;
+  text-align: center;
+}
+
+.contact-us {
+  background-color: rgb(115, 171, 179);
+  color: white;
+  padding: 20px;
+  text-align: center;
+  margin-top: 40px;
+}
